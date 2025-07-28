@@ -1,0 +1,122 @@
+title: Presidential Emergency Powers
+new-page: true
+is-card: true
+view-if: president = "Braun" and braunpower_timer = 0
+on-arrival: month_actions += 1; braunpower_timer += 6 if spd_caretaker = 0; braunpower_timer += 2 if spd_caretaker = 1
+card-image: img/portraits/BraunOtto.jpg
+tags: govt_affairs
+
+= Presidential Emergency Powers
+
+Under Article 48 of the Weimar Constitution, the President holds broad emergency powers.
+
+President Braun could use Article 48 to effectuate radical changes.
+
+Article 48 has been used by Hindenburg to promulgate anti-democratic and anti-worker policies; can emergency powers be used for good as well as evil?
+
+- @yes_power: Yes, we will invoke Article 48.
+- @as_is: No, we will not implement emergency measures.
+- @easy_discard
+
+@yes_power
+
+- @persecute_braun: Persecute anti-democratic forces.
+- @reform_institutions: Improve the loyalty of state institutions.
+- @reichsbanner_support: Direct government funds to the Reichsbanner.
+- @as_is: Nevermind, do not implement emergency measures.
+
+@persecute_braun
+
+President Braun can take action against multiple anti-republic groups. What should he focus on?
+
+- @deport_hitler_braun: We can revoke Hitler's citizenship and deport him.
+- @reichswehr_sa: We can direct the Reichswehr to persecute the SA.
+- @reichswehr_sh: We can direct the Reichswehr to persecute the Stahlhelm.
+- @reichswehr_rfb: We can direct the Reichswehr to persecute the RFB.
+- @yes_power: Implement other emergency measures.
+
+@deport_hitler_braun
+choose-if: hitler_deported = 0
+unavailable-subtitle: Hitler has already been deported.
+on-arrival: hitler_deported = 1; sa_strength = sa_strength/2; workers_nsdap -= 10; new_middle_nsdap -= 10; old_middle_nsdap -= 10; rural_nsdap -= 10; unemployed_nsdap -= 10; coup_progress -= 2; nsdap_leader = "Goebbels"
+achievement: deport_hitler
+
+There was minimal resistance to the revocation of Hitler's citizenship and his subsequent deportation. This is a sign of weakness, and his physical distance makes organizing difficult, impeding the Nazi effort to win more votes.
+
+In Hitler's absence, Joseph Goebbels has become the temporary leader of the Nazi party, with substantial influence from Hermann Göring.
+
+@reichswehr_sa
+choose-if: reichswehr_loyalty > 0.5
+unavailable-subtitle: The Reichswehr is not loyal enough to carry out this action effectively.
+on-arrival: sa_strength *= 0.4; sa_militancy *= 0.75; sa_banned = 1; dvp_relation -= 10; z_relation -= 5; sa_ban_timer = 6; reichswehr_loyalty -= 0.05; 
+
+The Reichswehr has conducted operations against the Nazi SA and heavily weakened it. Right-wing parties are voicing objections, as well as some officers.
+
+@reichswehr_sh
+choose-if: reichswehr_loyalty > 0.75
+unavailable-subtitle: It will require substantial reforms to get the Reichswehr to target their own.
+on-arrival: sh_strength *= 0.45; sh_banned = 1; dvp_relation -= 20; z_relation -= 7; reichswehr_loyalty -= 0.2; coalition_dissent += 1 if spd_in_government = 1; sh_ban_timer = 6;
+
+The Reichswehr has conducted operations against the nationalist Stahlhelm and heavily weakened it. There is widespread dissent within the military, regardless of our reforms. [? if spd_in_government = 1: Our coalition partners are also voicing objections. ?]
+
+@reichswehr_rfb
+on-arrival: kpd_relation -= 35; rfb_strength *= 0.2; rfb_militancy *= 0.5; rfb_banned = 1; communist_coalition -= 3; z_relation += 3; dvp_relation += 10; reichswehr_loyalty += 0.1
+
+The Reichswehr has conducted operations against the Communist RFB and nearly decimated it, with help from regional police forces. Many of its members have been brutally killed or arrested. It is unlikely the KPD will ever forgive us.
+
+@reform_institutions
+
+President Braun can authorize extraordinary procedure to quickly and effectively remove disloyal elements from the government. The bureaucratic effort necessary to make this work will necessarily cost money.
+
+- @braun_judiciary_reform: We can focus on reforming the judiciary.
+- @braun_interior_police_reform: We can focus on reforming the Ministry of Interior.
+- @braun_military_reform: We can focus on reforming the Reichswehr.
+- @braun_prussia_police_reform: We can focus on reforming the Prussian police.
+- @yes_power: Implement other emergency measures.
+
+@braun_judiciary_reform
+subtitle: -1 budget
+unavailable-subtitle: Not enough budget.
+choose-if: budget >= 1
+on-arrival: budget -= 1; democratization += 3; coalition_dissent +=2 if in_grand_coalition = 1; judicial_reform += 4; pro_republic += 3.5*(1-dissent); coup_progress += 1; coalition_dissent += 1 if historical_mode;
+
+We investigate and remove reactionary jurists in sweeping fashion using emergency powers, and replace them with more democratically-oriented judges. Conservatives are understandably angry.
+
+@braun_interior_police_reform
+subtitle: -1 budget
+unavailable-subtitle: Not enough budget.
+choose-if: budget >= 1
+on-arrival: budget -= 1; interior_police_loyalty += 0.25
+
+We have used emergency powers to remove and replace many members of the federal police. This will make them much more reliable in the future.
+
+Current interior police loyalty: [+ interior_police_loyalty : loyalty +]
+
+@braun_military_reform
+subtitle: -1 budget. This may impact the Reichswehr's potency.
+unavailable-subtitle: Not enough budget.
+choose-if: budget >= 1
+on-arrival: budget -= 1; coalition_dissent += 3 if in_grand_coalition == 1; reichswehr_loyalty += 0.35; reichswehr_militancy -= 2; coup_progress += 2; dvp_relation -= 15; z_relation -= 10;
+
+We have used emergency powers to remove and replace many members of the Reichswehr. This has led to great strides in our effort to rid the military of reactionary influences, at the cost of some fighting potential, and drawing the ire of the right.
+
+@braun_prussia_police_reform
+subtitle: -1 budget
+unavailable-subtitle: Not enough budget.
+choose-if: budget >= 1
+on-arrival: budget -= 1; prussian_police_loyalty += 0.3
+
+We have used emergency powers to reform the Prussian police with great efficacy! The police forces are now much more loyal to the republic.
+
+@reichsbanner_support
+subtitle: -1 budget
+unavailable-subtitle: Not enough budget.
+choose-if: budget >= 1
+on-arrival: budget -= 1; rb_strength += 500; rb_militancy += 0.15; z_relation -= 5; left_dissent += 5;
+
+We have funneled government funds directly into the Reichsbanner. Although many in our party see this as a positive move to protect the republic, the left faction, as well as the Center party, disapproves.
+
+
+
+@as_is
+go-to: root
