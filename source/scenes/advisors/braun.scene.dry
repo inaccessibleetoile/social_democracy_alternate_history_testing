@@ -12,6 +12,7 @@ Braun [? if spd_prussia = 1 : is ?][? if spd_prussia = 0 : was ?] the Minister-P
 - @coalition
 - @prussian_bulwark
 - @snap_election
+- @braunpowers : Use Article 48, for evil !
 - @root: Return to main
 
 @coalition
